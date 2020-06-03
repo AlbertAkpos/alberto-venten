@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import me.alberto.albertoventen.databinding.FragmentFilterBinding
 
 /**
@@ -29,7 +30,9 @@ class FilterFragment : Fragment() {
         binding = FragmentFilterBinding.inflate(inflater, container, false)
 
         binding.filterRecyclerView.adapter = FilterAdapter(FilterItemClickListener {
-
+            val action = FilterFragmentDirections
+                .actionFilterFragmentToCarOwnersFragment(it)
+            this.findNavController().navigate(action)
         })
 
         binding.viewModel = filterViewModel

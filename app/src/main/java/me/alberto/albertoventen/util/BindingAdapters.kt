@@ -10,13 +10,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import me.alberto.albertoventen.R
+import me.alberto.albertoventen.model.CarOwner
 import me.alberto.albertoventen.model.FilterItem
+import me.alberto.albertoventen.screens.carowner.CarOwnerAdapter
 import me.alberto.albertoventen.screens.filter.FilterAdapter
 
 
 @BindingAdapter("app:filterList")
 fun setFilterItemRecyclerView(recyclerView: RecyclerView, list: List<FilterItem>?) {
     val adapter = recyclerView.adapter as FilterAdapter
+    adapter.submitList(list)
+}
+
+@BindingAdapter("app:carOwners")
+fun setCarOwnersRecyclerView(recyclerView: RecyclerView, list: List<CarOwner>?){
+    val adapter = recyclerView.adapter as CarOwnerAdapter
     adapter.submitList(list)
 }
 

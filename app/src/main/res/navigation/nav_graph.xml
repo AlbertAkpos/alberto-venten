@@ -10,5 +10,19 @@
         android:name="me.alberto.albertoventen.screens.filter.FilterFragment"
         android:label="Predicates"
         tools:layout="@layout/fragment_filter"
-        />
+        >
+        <action
+            android:id="@+id/action_filterFragment_to_carOwnersFragment"
+            app:destination="@id/carOwnersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/carOwnersFragment"
+        android:name="me.alberto.albertoventen.screens.carowner.CarOwnersFragment"
+        android:label="Car owners"
+        tools:layout="@layout/fragment_car_owners"
+        >
+        <argument
+            android:name="filter"
+            app:argType="me.alberto.albertoventen.model.FilterItem" />
+    </fragment>
 </navigation>

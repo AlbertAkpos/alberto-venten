@@ -1,24 +1,39 @@
 package me.alberto.albertoventen.screens.carowner
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import me.alberto.albertoventen.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import me.alberto.albertoventen.databinding.FragmentCarOwnersBinding
 
 /**
  * A simple [Fragment] subclass.
  */
 class CarOwnersFragment : Fragment() {
 
+    private lateinit var binding: FragmentCarOwnersBinding
+
+    private lateinit var viewModel: CarOwnerViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_car_owners, container, false)
+        binding = FragmentCarOwnersBinding.inflate(inflater, container, false)
+
+        val filter = CarOwnersFragmentArgs.fromBundle(requireArguments()).filter
+        viewModel =
+            ViewModelProvider(this, CarOwnerViewModel.Factory(filter, requireContext())).get(
+                CarOwnerViewModel::class.java
+            )
+
+        binding.carOwnerRecyclerView.adapter = CarOwnerAdapter()
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        return binding.root
     }
 
 }
