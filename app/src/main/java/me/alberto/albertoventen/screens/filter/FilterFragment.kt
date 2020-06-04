@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import me.alberto.albertoventen.databinding.FragmentFilterBinding
+import me.alberto.albertoventen.util.LoadingError
 
 /**
  * A simple [Fragment] subclass.
@@ -38,7 +41,20 @@ class FilterFragment : Fragment() {
         binding.viewModel = filterViewModel
         binding.lifecycleOwner = this
 
+        observe()
+
         return binding.root
+    }
+
+    private fun observe() {
+        filterViewModel.status.observe(viewLifecycleOwner, Observer {
+            it ?: return@Observer
+
+            if (it is LoadingError) {
+                Snackbar.make(binding.root, it.error, Snackbar.LENGTH_LONG).show()
+            }
+
+        })
     }
 
 }
