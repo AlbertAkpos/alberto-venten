@@ -70,5 +70,6 @@ enum class Color(var color: String) {
     FUSCIA("Fuscia"),
     CRIMSON("Crimson"),
     KHAKI("Khaki"),
+    PURPLE("Purple")
 
 }

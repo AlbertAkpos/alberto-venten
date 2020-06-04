@@ -10,8 +10,7 @@ import de.siegmar.fastcsv.reader.CsvReader
 import kotlinx.coroutines.*
 import me.alberto.albertoventen.model.CarOwner
 import me.alberto.albertoventen.model.FilterItem
-import me.alberto.albertoventen.util.FILE_NAME
-import me.alberto.albertoventen.util.FOLDER_NAME
+import me.alberto.albertoventen.util.*
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
@@ -31,6 +30,10 @@ class CarOwnerViewModel(private val context: Context, private val predicate: Fil
         FOLDER_NAME.plus("/$FILE_NAME")
     )
 
+    private val _status = MutableLiveData<LoadingState>()
+    val status: LiveData<LoadingState>
+        get() = _status
+
 
     init {
         readFile(predicate)
@@ -39,16 +42,18 @@ class CarOwnerViewModel(private val context: Context, private val predicate: Fil
     private fun readFile(predicate: FilterItem) {
 
         if (!file.exists()) {
-
+            _status.value = LoadingError("Some files are missing")
             return
         }
 
         uiScope.launch {
             try {
+                _status.value = Loading
                 val listOfCarOwners = fetchFile()
                 _filterResult.value = filterCarOwners(listOfCarOwners, predicate)
+                _status.value = LoadingDone
             } catch (error: IOException) {
-
+                _status.value = LoadingError("An error occurred")
             }
         }
     }

@@ -3,10 +3,11 @@ package me.alberto.albertoventen.util
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ProgressBar
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import me.alberto.albertoventen.R
@@ -23,15 +24,20 @@ fun setFilterItemRecyclerView(recyclerView: RecyclerView, list: List<FilterItem>
 }
 
 @BindingAdapter("app:carOwners")
-fun setCarOwnersRecyclerView(recyclerView: RecyclerView, list: List<CarOwner>?){
+fun setCarOwnersRecyclerView(recyclerView: RecyclerView, list: List<CarOwner>?) {
     val adapter = recyclerView.adapter as CarOwnerAdapter
     adapter.submitList(list)
 }
 
 
 @BindingAdapter("app:loading")
-fun showLoading(progressBar: ProgressBar, status: LoadingState) {
-    progressBar.visibility = when (status) {
+fun showLoading(imageView: ImageView, status: LoadingState?) {
+
+    Glide.with(imageView.context)
+        .load(R.drawable.gear_gif)
+        .into(imageView)
+
+    imageView.visibility = when (status) {
         is Loading -> View.VISIBLE
         else -> View.GONE
     }
@@ -191,6 +197,12 @@ fun ChipGroup.addColours(colors: List<String>?) {
                     R.color.yellow
                 )
             )
+            Color.PURPLE.color -> ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    this.context,
+                    R.color.purple
+                )
+            )
 
             else -> ColorStateList.valueOf(ContextCompat.getColor(this.context, R.color.white))
         }
@@ -204,4 +216,142 @@ fun ChipGroup.addColours(colors: List<String>?) {
         }
     }
 
+}
+
+
+@BindingAdapter("app:carColor")
+fun Chip.setCarColor(color: String) {
+    this.chipBackgroundColor = when (color) {
+        Color.RED.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.red
+            )
+        )
+        Color.AQUAMARINE.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.aquamarine
+            )
+        )
+
+        Color.BLUE.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.blue
+            )
+        )
+
+        Color.CRIMSON.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.crimson
+            )
+        )
+
+        Color.FUSCIA.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.fushcia
+            )
+        )
+
+        Color.GOLDENROD.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.goldenrod
+            )
+        )
+
+        Color.GREEN.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.green
+            )
+        )
+
+        Color.INDIGO.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.indigo
+            )
+        )
+
+        Color.KHAKI.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.khaki
+            )
+        )
+
+        Color.MAROON.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.maroon
+            )
+        )
+
+        Color.MAUV.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.mauv
+            )
+        )
+
+        Color.ORANGE.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.orange
+            )
+        )
+
+        Color.PINK.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.pink
+            )
+        )
+
+        Color.PUCE.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.puce
+            )
+        )
+
+        Color.TEAL.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.teal
+            )
+        )
+
+        Color.TURQUOISE.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.turquoise
+            )
+        )
+
+        Color.VIOLET.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.violet
+            )
+        )
+
+        Color.YELLOW.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.yellow
+            )
+        )
+        Color.PURPLE.color -> ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this.context,
+                R.color.purple
+            )
+        )
+        else -> ColorStateList.valueOf(ContextCompat.getColor(this.context, R.color.white))
+    }
 }

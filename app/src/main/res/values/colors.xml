@@ -3,7 +3,7 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-    <color name="faintWhite">#E1DFDF</color>
+    <color name="faintWhite">#EFEDED</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="green">#4CAF50</color>
@@ -24,4 +24,5 @@
     <color name="fushcia"> #FF00FF</color>
     <color name="crimson"> #990000</color>
     <color name="khaki">#f0e68c</color>
+    <color name="purple">#800080</color>
 </resources>
