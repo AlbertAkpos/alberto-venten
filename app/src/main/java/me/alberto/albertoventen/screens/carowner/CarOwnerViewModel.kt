@@ -6,14 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import de.siegmar.fastcsv.reader.CsvReader
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import me.alberto.albertoventen.model.CarOwner
 import me.alberto.albertoventen.model.FilterItem
 import me.alberto.albertoventen.util.*
-import java.io.BufferedReader
 import java.io.File
-import java.io.FileReader
 import java.io.IOException
 
 class CarOwnerViewModel(private val context: Context, private val predicate: FilterItem) :
@@ -49,89 +49,13 @@ class CarOwnerViewModel(private val context: Context, private val predicate: Fil
         uiScope.launch {
             try {
                 _status.value = Loading
-                val listOfCarOwners = fetchFile()
-                _filterResult.value = filterCarOwners(listOfCarOwners, predicate)
+                val listOfCarOwners = FilterObject.fetchFile(file)
+                _filterResult.value = FilterObject.filterCarOwners(listOfCarOwners, predicate)
                 _status.value = LoadingDone
             } catch (error: IOException) {
                 _status.value = LoadingError("An error occurred")
             }
         }
-    }
-
-    private suspend fun filterCarOwners(
-        listOfCarOwners: List<CarOwner>,
-        predicate: FilterItem
-    ): List<CarOwner> {
-        val list = ArrayList<CarOwner>()
-        withContext(Dispatchers.IO) {
-            for (item in listOfCarOwners) {
-                if (item.carColor.toLowerCase() in predicate.colors.map { it.toLowerCase() }
-                    || predicate.colors.isEmpty()
-                ) {
-                    if (item.year.toLong() in predicate.startYear..predicate.endYear) {
-                        if (item.country.toLowerCase() in predicate.countries.map { it.toLowerCase() } ||
-                            predicate.countries.isEmpty()
-                        ) {
-
-                            list.add(
-                                CarOwner(
-                                    item.id,
-                                    item.firstName,
-                                    item.lastName,
-                                    item.email,
-                                    item.country,
-                                    item.carModel,
-                                    item.year,
-                                    item.carColor,
-                                    item.gender,
-                                    item.jobTitle,
-                                    item.bio
-                                )
-                            )
-
-                        }
-                    }
-                }
-            }
-        }
-
-        return list
-    }
-
-    private suspend fun fetchFile(): List<CarOwner> {
-        val list = ArrayList<CarOwner>()
-        withContext(Dispatchers.IO) {
-            try {
-                val reader = CsvReader()
-                reader.setFieldSeparator(',')
-                reader.setContainsHeader(true)
-                reader.setSkipEmptyRows(true)
-                reader.parse(BufferedReader(FileReader(file.absolutePath)))
-                    .use { parser ->
-                        while (true) {
-                            val row = parser.nextRow() ?: break
-                            list.add(
-                                CarOwner(
-                                    row.getField(0).toLong(),
-                                    row.getField(1),
-                                    row.getField(2),
-                                    row.getField(3),
-                                    row.getField(4),
-                                    row.getField(5),
-                                    row.getField(6),
-                                    row.getField(7),
-                                    row.getField(8),
-                                    row.getField(9),
-                                    row.getField(10)
-                                )
-                            )
-                        }
-                    }
-            } catch (error: Exception) {
-                error.printStackTrace()
-            }
-        }
-        return list
     }
 
 
