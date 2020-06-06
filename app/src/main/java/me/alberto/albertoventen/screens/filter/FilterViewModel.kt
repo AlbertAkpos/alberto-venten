@@ -49,6 +49,11 @@ class FilterViewModel : ViewModel() {
         }.await()
     }
 
+    fun refresh() {
+        _status.value = null
+        getFilters()
+    }
+
 
     override fun onCleared() {
         super.onCleared()

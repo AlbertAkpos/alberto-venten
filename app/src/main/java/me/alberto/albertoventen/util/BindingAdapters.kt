@@ -63,6 +63,15 @@ fun ChipGroup.addCountries(countries: List<String>?) {
 
 }
 
+@BindingAdapter("app:showError")
+fun setError(view: View, status: LoadingState?) {
+    if (status is LoadingError) {
+        view.visibility = View.VISIBLE
+    } else {
+        view.visibility = View.GONE
+    }
+}
+
 
 @BindingAdapter("app:colors")
 fun ChipGroup.addColours(colors: List<String>?) {
