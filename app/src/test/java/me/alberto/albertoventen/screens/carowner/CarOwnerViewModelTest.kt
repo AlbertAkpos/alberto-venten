@@ -91,4 +91,68 @@ class CarOwnerViewModelTest {
             }
         }
     }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun should_return_correct_list_size_for_all_countries_and_colors() {
+        val predicate = FilterItem(
+            1,
+            1996,
+            2011,
+            "",
+            listOf(
+                "Brazil",
+                "Indonesia",
+                "Egypt",
+                "Peru",
+                "Poland",
+                "Niger",
+                "Greece",
+                "United States",
+                "Portugal",
+                "Myanmar",
+                "South Africa",
+                "Nicaragua",
+                "Finland",
+                "Cuba",
+                "Mexico",
+                "Egypt",
+                "Uganda",
+                "Kenya",
+                "China",
+                "Bolivia",
+                "Thailand"
+            ),
+            listOf(
+                "Green",
+                "Violet",
+                "Yellow",
+                "Blue",
+                "Purple",
+                "Khaki",
+                "Crimson",
+                "Fuscia",
+                "Pink",
+                "Goldenrod",
+                "Turquoise",
+                "Indigo",
+                "Puce",
+                "Mauv",
+                "Orange",
+                "Aquamarine",
+                "Red",
+                "Maroon",
+                "Teal"
+            )
+        )
+
+        runBlocking {
+            launch(Dispatchers.Main) {
+                val list = Fake.getFakeCarOwners()
+                val filterList = FilterObject.filterCarOwners(list, predicate)
+                assertEquals(4, filterList.size)
+            }
+        }
+    }
+
 }
