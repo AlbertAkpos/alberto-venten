@@ -38,6 +38,7 @@ class FilterViewModel : ViewModel() {
                 _filterList.value = fetchFilters()
                 _status.value = LoadingDone
             } catch (error: IOException) {
+                error.printStackTrace()
                 _status.value = LoadingError("Network error")
             }
         }

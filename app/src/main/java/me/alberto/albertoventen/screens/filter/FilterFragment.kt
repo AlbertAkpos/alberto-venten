@@ -1,5 +1,6 @@
 package me.alberto.albertoventen.screens.filter
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.google.android.gms.common.GooglePlayServicesRepairableException
+import com.google.android.gms.security.ProviderInstaller
 import com.google.android.material.snackbar.Snackbar
 import me.alberto.albertoventen.databinding.FragmentFilterBinding
 import me.alberto.albertoventen.util.LoadingError
@@ -42,7 +47,7 @@ class FilterFragment : Fragment() {
         binding.lifecycleOwner = this
 
         observe()
-
+        installTls12(requireActivity().applicationContext)
         return binding.root
     }
 
@@ -55,6 +60,19 @@ class FilterFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun installTls12(context: Context) {
+        try {
+            ProviderInstaller.installIfNeeded(context)
+        } catch (e: GooglePlayServicesRepairableException) {
+            // Prompt the user to install/update/enable Google Play services.
+            GoogleApiAvailability.getInstance()
+                .showErrorNotification(context, e.connectionStatusCode)
+        } catch (e: GooglePlayServicesNotAvailableException) {
+            Snackbar.make(binding.root, "Need to update google play services", Snackbar.LENGTH_LONG)
+                .show()
+        }
     }
 
 }
