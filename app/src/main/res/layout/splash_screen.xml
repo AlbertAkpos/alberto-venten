@@ -6,13 +6,13 @@
     <data>
         <variable
             name="viewModel"
-            type="me.alberto.albertoventen.screens.SplashScreenViewModel" />
+            type="me.alberto.albertoventen.screens.splash.SplashScreenViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".screens.SplashScreen">
+        tools:context=".screens.splash.SplashScreen">
 
         <ImageView
             android:id="@+id/imageView"

@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">AlbertoVenten</string>
+    <string name="year">%s - %s</string>
+    <string name="both_sex">Male and Female</string>
+    <string name="fullName">%s %s</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_result_found">No result found</string>
+    <string name="off_line">You\'re offline</string>
+    <string name="retry">Retry</string>
 </resources>
