@@ -20,7 +20,6 @@ object Loading : LoadingState()
 
 
 fun checkNetwork(context: Context): Boolean {
-
     var isConnected = false
 
     val connectionManager =
