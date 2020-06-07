@@ -25,22 +25,23 @@ object FilterObject {
                         if (item.country.toLowerCase() in predicate.countries.map { it.toLowerCase() } ||
                             predicate.countries.isEmpty()
                         ) {
-
-                            list.add(
-                                CarOwner(
-                                    item.id,
-                                    item.firstName,
-                                    item.lastName,
-                                    item.email,
-                                    item.country,
-                                    item.carModel,
-                                    item.year,
-                                    item.carColor,
-                                    item.gender,
-                                    item.jobTitle,
-                                    item.bio
+                            if (item.gender.toLowerCase() == predicate.gender.toLowerCase() || predicate.gender.isEmpty()) {
+                                list.add(
+                                    CarOwner(
+                                        item.id,
+                                        item.firstName,
+                                        item.lastName,
+                                        item.email,
+                                        item.country,
+                                        item.carModel,
+                                        item.year,
+                                        item.carColor,
+                                        item.gender,
+                                        item.jobTitle,
+                                        item.bio
+                                    )
                                 )
-                            )
+                            }
 
                         }
                     }
