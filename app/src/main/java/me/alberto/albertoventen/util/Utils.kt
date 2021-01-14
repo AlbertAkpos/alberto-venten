@@ -6,17 +6,12 @@ import android.net.NetworkCapabilities
 import android.os.Build
 
 
-const val FOLDER_NAME = "Venten"
-const val FILE_NAME = "car_owners.csv"
-const val FILE_DOWNLOAD_URL =
-    "https://drive.google.com/u/0/uc?id=1giBv3pK6qbOPo0Y02H-wjT9ULPksfBCm&export=download"
-
-
 //Download state
 sealed class LoadingState
 object LoadingDone : LoadingState()
 data class LoadingError(val error: String) : LoadingState()
-object Loading : LoadingState()
+data class Loading(val progress: Float = 0f) : LoadingState()
+object FileExist : LoadingState()
 
 
 fun checkNetwork(context: Context): Boolean {

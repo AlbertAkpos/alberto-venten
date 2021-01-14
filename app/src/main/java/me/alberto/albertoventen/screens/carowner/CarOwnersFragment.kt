@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import me.alberto.albertoventen.databinding.FragmentCarOwnersBinding
 import me.alberto.albertoventen.util.LoadingError
+import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -18,19 +18,16 @@ class CarOwnersFragment : Fragment() {
 
     private lateinit var binding: FragmentCarOwnersBinding
 
-    private lateinit var viewModel: CarOwnerViewModel
+    private val viewModel: CarOwnerViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCarOwnersBinding.inflate(inflater, container, false)
-
         val filter = CarOwnersFragmentArgs.fromBundle(requireArguments()).filter
-        viewModel =
-            ViewModelProvider(this, CarOwnerViewModel.Factory(filter, requireContext())).get(
-                CarOwnerViewModel::class.java
-            )
+        if (savedInstanceState == null) viewModel.readFile(filter)
+
 
         binding.carOwnerRecyclerView.adapter = CarOwnerAdapter()
 

@@ -25,7 +25,7 @@ object FilterObject {
                         if (item.country.toLowerCase() in predicate.countries.map { it.toLowerCase() } ||
                             predicate.countries.isEmpty()
                         ) {
-                            if (item.gender.toLowerCase() == predicate.gender.toLowerCase() || predicate.gender.isEmpty()) {
+                            if (item.gender.equals(predicate.gender, ignoreCase = true) || predicate.gender.isEmpty()) {
                                 list.add(
                                     CarOwner(
                                         item.id,

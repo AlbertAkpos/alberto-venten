@@ -1,5 +1,6 @@
 package me.alberto.albertoventen.screens.filter
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,6 +16,10 @@ import me.alberto.albertoventen.util.LoadingState
 import java.io.IOException
 
 class FilterViewModel : ViewModel() {
+
+    init {
+        Log.d("slash", "init of viewmodel")
+    }
 
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -32,7 +37,7 @@ class FilterViewModel : ViewModel() {
     }
 
     private fun getFilters() {
-        _status.value = Loading
+        _status.value = Loading()
         viewModelScope.launch {
             try {
                 _filterList.value = fetchFilters()

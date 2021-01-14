@@ -16,6 +16,8 @@ import com.google.android.gms.security.ProviderInstaller
 import com.google.android.material.snackbar.Snackbar
 import me.alberto.albertoventen.databinding.FragmentFilterBinding
 import me.alberto.albertoventen.util.LoadingError
+import me.alberto.albertoventen.util.extension.installGoogleServiceProvider
+import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -24,17 +26,13 @@ class FilterFragment : Fragment() {
 
     private lateinit var binding: FragmentFilterBinding
 
-    private val filterViewModel: FilterViewModel by lazy {
-        ViewModelProvider(
-            this,
-            FilterViewModel.Factory()
-        ).get(FilterViewModel::class.java)
-    }
+    private val filterViewModel: FilterViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        context?.installGoogleServiceProvider()
         binding = FragmentFilterBinding.inflate(inflater, container, false)
 
         binding.filterRecyclerView.adapter = FilterAdapter(FilterItemClickListener {
@@ -47,7 +45,6 @@ class FilterFragment : Fragment() {
         binding.lifecycleOwner = this
 
         observe()
-        installTls12(requireActivity().applicationContext)
         return binding.root
     }
 
@@ -62,17 +59,6 @@ class FilterFragment : Fragment() {
         })
     }
 
-    private fun installTls12(context: Context) {
-        try {
-            ProviderInstaller.installIfNeeded(context)
-        } catch (e: GooglePlayServicesRepairableException) {
-            // Prompt the user to install/update/enable Google Play services.
-            GoogleApiAvailability.getInstance()
-                .showErrorNotification(context, e.connectionStatusCode)
-        } catch (e: GooglePlayServicesNotAvailableException) {
-            Snackbar.make(binding.root, "Need to update google play services", Snackbar.LENGTH_LONG)
-                .show()
-        }
-    }
+
 
 }
